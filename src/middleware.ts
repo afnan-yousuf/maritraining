@@ -1,23 +1,23 @@
 import {NextRequest, NextResponse} from "next/server"
-import { verifyToken } from "./lib/auth";
+import { verifyToken } from "@/app/lib/auth";
 
-export async function middleware(request, NextRequest) {
+export async function middleware(request: NextRequest) {
     
     const token = request.cookies.get("session")?.value;
-    const pathname = request.nexturl.pathname;
+    const pathname = request.nextUrl.pathname;
 
 
-    if(pathname.startswith("/dashboard") && !token){
+    if(pathname.startsWith("/dashboard") && !token){
         return NextResponse.redirect(new URL("/", request.url));
     }
 
     if(token){
         const user = await verifyToken(token);
-        if(!user && pathname.startswith("dashboard")){
+        if(!user && pathname.startsWith("dashboard")){
             return NextResponse.redirect(new URL("/", request.url));
         }
 
-        if(pathname.startswith("/dashboard/admin") && user.role !== "admin"){
+        if(pathname.startsWith("/dashboard/admin") && user?.role !== "admin"){
             return NextResponse.redirect(new URL("/unauthorize", request.url));
         }
     }
