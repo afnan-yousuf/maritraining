@@ -1,10 +1,11 @@
-import  connect  from "@/lib/db"
+import  connect  from "@/app/lib/db"
 import { NextRequest, NextResponse } from "next/server";
-import User from "@/models/User"
+import User from "@/app/models/User";
+import bcrypt from "bcryptjs";
 
 
 
-export async function POST(request: NextRequest) {
+export async function POST(request, NextRequest) {
 
     await connect();
 
@@ -39,7 +40,7 @@ export async function POST(request: NextRequest) {
         role: role || "student",
     });
 
-    return NextResponse({
+    return NextResponse.json({
         success: true,
         message: "user registered successfully",
         user:{

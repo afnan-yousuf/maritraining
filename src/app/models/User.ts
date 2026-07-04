@@ -20,5 +20,8 @@ const UserSchema = new mongoose.Schema({
         enum: ["admin","teacher","student"],
         default: "student"
     }
+    },
+    {timestamps: true}
+);
 
-})
+export default mongoose.models.User || mongoose.model("User", UserSchema)
