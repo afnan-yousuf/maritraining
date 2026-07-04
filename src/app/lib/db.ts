@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 let isConnected = false;
 
-export async function connect(){
+export default async function connect(){
 
     if(isConnected) return;
 
